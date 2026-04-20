@@ -596,7 +596,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:3.5rem 4
 
   /* Hero */
   .hero{padding:7rem 1.2rem 3rem;min-height:100svh}
-  h1.hero-h{font-size:clamp(2.2rem,12vw,4rem);line-height:.92}
+  h1.hero-h{font-size:clamp(1.8rem,9vw,3rem);line-height:.92}
   .hero-sub{font-size:.9rem;max-width:100%}
   .hero-actions{flex-wrap:wrap;gap:.8rem}
   .btn-fill,.btn-outline{font-size:.7rem;padding:.75rem 1.6rem}
@@ -631,7 +631,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:3.5rem 4
   .stat-box{padding:1.8rem 1.2rem}
 
   /* Bento */
-  .bento{display:flex;flex-direction:column;gap:6px}
+  .bento{display:flex;flex-direction:column;gap:6px}/* overridden below */
   .bi{min-height:200px!important;border-radius:10px}
   .bi-1,.bi-2{aspect-ratio:unset!important;min-height:220px!important}
   .bi-ph p,.bi-badge{font-size:.52rem}
@@ -708,7 +708,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:3.5rem 4
 
 /* ── SMALL MOBILE (max 480px) ── */
 @media(max-width:480px){
-  h1.hero-h{font-size:clamp(1.9rem,10vw,3rem)}
+  h1.hero-h{font-size:clamp(1.2rem,7vw,1.9rem) !important}
   .hero-stats{grid-template-columns:1fr 1fr}
   .ig-grid{grid-template-columns:repeat(2,1fr)}
   .poster-grid{grid-template-columns:1fr 1fr}
@@ -802,8 +802,11 @@ img,video,iframe,svg{max-width:100%}
 
 /* ── BetaAds: wider logo ── */
 .partner-betaads img {
-  width: 200px !important;
-  height: 52px !important;
+  width: 380px !important;
+  height: 95px !important;
+}
+.partner-betaads {
+  padding: 2rem 1.5rem !important;
 }
 
 /* ── Coming-soon bento boxes ── */
@@ -840,11 +843,23 @@ img,video,iframe,svg{max-width:100%}
   }
   [data-theme="light"] .mobile-nav { background: rgba(246,244,240,.97) !important; }
 
+
+  /* Prevent hero heading overflow on mobile */
+  h1.hero-h {
+    word-break: break-word !important;
+    overflow-wrap: break-word !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  .hero { overflow-x: hidden !important; }
+  section, .sec { overflow-x: hidden !important; }
+  body { overflow-x: hidden !important; }
+
   /* ── HERO: centered ── */
   .hero { text-align: center; padding: 7rem 1.2rem 3rem; }
   .hero-actions { justify-content: center; flex-wrap: wrap; }
   .hero-tags { justify-content: center; flex-wrap: wrap; }
-  h1.hero-h { font-size: clamp(2rem, 11vw, 3.5rem); line-height: .92; }
+  h1.hero-h { font-size: clamp(1.4rem, 8vw, 2.4rem) !important; line-height: .92; }
 
   /* ── SECTIONS: centered headings ── */
   .sec-label, .sec-h, .sec-sub { text-align: center; }
@@ -895,56 +910,121 @@ img,video,iframe,svg{max-width:100%}
     display: grid !important;
     grid-template-columns: 1fr 1fr !important;
     gap: 6px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    padding: 0 !important;
+    margin: 0 !important;
   }
-  /* SteelSeries: full width row 1 */
+  .bento .bi {
+    box-sizing: border-box !important;
+    min-width: 0 !important;
+    border-radius: 10px !important;
+    overflow: hidden !important;
+  }
+  /* bi-1 SteelSeries: full width, 16:9 — spans both columns */
   .bi-1 {
     grid-column: 1 / 3 !important;
     grid-row: 1 !important;
-    aspect-ratio: 16/9 !important;
+    aspect-ratio: 16 / 9 !important;
     min-height: unset !important;
+    width: 100% !important;
   }
-  /* Tørst: left of row 2 */
+  /* bi-2 Tørst: left column, 9:16 portrait */
   .bi-2 {
     grid-column: 1 / 2 !important;
     grid-row: 2 !important;
-    aspect-ratio: 9/16 !important;
+    aspect-ratio: 9 / 16 !important;
     min-height: unset !important;
+    width: 100% !important;
   }
-  /* Mystixx: right of row 2 (side by side with Tørst) */
+  /* bi-3 Mystixx: right column, 9:16 portrait — exactly beside bi-2 */
   .bi-3 {
     grid-column: 2 / 3 !important;
     grid-row: 2 !important;
-    aspect-ratio: 9/16 !important;
+    aspect-ratio: 9 / 16 !important;
     min-height: unset !important;
+    width: 100% !important;
   }
-  /* Placeholders: 2 per row */
-  .bi-4 { grid-column: 1/2 !important; grid-row: 3 !important; min-height: 120px !important; }
-  .bi-5 { grid-column: 2/3 !important; grid-row: 3 !important; min-height: 120px !important; }
-  .bi-6 { grid-column: 1/2 !important; grid-row: 4 !important; min-height: 120px !important; }
-  .bi-7 { grid-column: 2/3 !important; grid-row: 4 !important; min-height: 120px !important; }
+  /* Kommer snart: 2x2 grid, square boxes, same width as videos above */
+  .bi-4 {
+    grid-column: 1 / 2 !important;
+    grid-row: 3 !important;
+    aspect-ratio: 1 / 1 !important;
+    min-height: unset !important;
+    width: 100% !important;
+  }
+  .bi-5 {
+    grid-column: 2 / 3 !important;
+    grid-row: 3 !important;
+    aspect-ratio: 1 / 1 !important;
+    min-height: unset !important;
+    width: 100% !important;
+  }
+  .bi-6 {
+    grid-column: 1 / 2 !important;
+    grid-row: 4 !important;
+    aspect-ratio: 1 / 1 !important;
+    min-height: unset !important;
+    width: 100% !important;
+  }
+  .bi-7 {
+    grid-column: 2 / 3 !important;
+    grid-row: 4 !important;
+    aspect-ratio: 1 / 1 !important;
+    min-height: unset !important;
+    width: 100% !important;
+  }
+
+  /* Disable hover overlay on kommer snart boxes on mobile */
+  .bi-coming-soon .bi-ov {
+    display: none !important;
+    pointer-events: none !important;
+    opacity: 0 !important;
+  }
+  .bi-coming-soon:hover .bi-ov,
+  .bi-coming-soon:active .bi-ov {
+    display: none !important;
+    opacity: 0 !important;
+  }
 
   /* Bento video fill */
-  .bi-video-wrap { position: absolute !important; inset: 0 !important; }
-  .bi-video-wrap iframe { width: 100% !important; height: 100% !important; }
+  .bi-video-wrap {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+  }
+  .bi-video-wrap iframe {
+    position: absolute !important;
+    top: 0 !important; left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+  }
+  /* Ensure bi with video has position:relative for absolute child */
+  .bi-video { position: relative !important; }
 
   /* ── YOUTUBE CHANNELS: 2-column grid ── */
   .sl-outer { overflow: hidden !important; }
-  .sl-track, .sl-loop {
+  /* sl-track (≤3 videos, e.g. small channels): 2-col grid */
+  .sl-track {
     display: grid !important;
     grid-template-columns: repeat(2, 1fr) !important;
     gap: 8px !important;
     overflow: visible !important;
     width: 100% !important;
     transform: none !important;
-    animation: none !important;
     transition: none !important;
   }
-  .vid-card {
+  .sl-track .vid-card {
     min-width: unset !important;
     width: 100% !important;
     flex: unset !important;
   }
-  /* Hide slider buttons and dots on mobile */
+  /* sl-loop (>3 videos, carousel): keep as scrolling loop but show 2 at a time */
+  .sl-outer { overflow: hidden !important; }
+  .sl-loop { display: flex !important; gap: 8px !important; }
+  .sl-loop .vid-card { min-width: calc(50% - 4px) !important; flex-shrink: 0 !important; }
+  /* Hide manual slider buttons (loop is auto) */
   .sl-btn, .sl-controls { display: none !important; }
   /* Channel header: center on mobile */
   .ch-hdr {
@@ -1873,7 +1953,7 @@ function buildCh(key,data){
         (()=>{const s=document.createElement('style');s.id='loop-style';document.head.appendChild(s);return s})();
       if(!styleEl.textContent.includes('loop-'+key))
         styleEl.textContent+=`@keyframes loop-${key}{0%{transform:translateX(0)}100%{transform:translateX(-${setW}px)}}`;
-      if(window.innerWidth>768){track.style.animation=`loop-${key} ${dur}s linear infinite`;}else{track.style.animation='none';}
+      track.style.animation=`loop-${key} ${dur}s linear infinite`;
     }
     buildLoop();
     wrap.addEventListener('mouseenter',()=>track.style.animationPlayState='paused');
