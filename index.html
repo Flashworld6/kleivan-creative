@@ -1165,6 +1165,7 @@ img,video,iframe,svg{max-width:100%}
             </div>
           </div>
         </div>
+        <input type="hidden" id="budgetValue" name="budsjett" value="">
         <button type="submit" class="form-submit">Send forespørsel →</button>
       </form>
     </div>
@@ -1841,20 +1842,57 @@ function updateSlider(){
   let activeIdx=0;
   BPS.forEach((bp,i)=>{if(sv>=bp.v)activeIdx=i});
   document.getElementById(['tl0','tl33','tl66','tl100'][activeIdx]).classList.add('active');
+
+  // Sync budget to hidden form field
+  const bv=document.getElementById('budgetValue');
+  if(bv){bv.value=display.textContent.replace('estimert','').replace('og over','').trim();}
 }
 slider.addEventListener('input',updateSlider);
 updateSlider();
 
 /* ── FORM ── */
-document.getElementById('contactForm').addEventListener('submit',function(e){
+document.getElementById('contactForm').addEventListener('submit', async function(e) {
   e.preventDefault();
-  const d=new FormData(this);
-  const budgetText=display.textContent.replace('estimert','').replace('og over','').trim();
-  const s=encodeURIComponent('Nytt oppdrag — Kleivan Creative Studio');
-  const b=encodeURIComponent(`Navn: ${d.get('navn')}\nE-post: ${d.get('epost')}\nOppdrag: ${d.get('oppdrag')}\nBudsjett: ${budgetText}\n\n${d.get('melding')}`);
-  document.getElementById('formContent').style.display='none';
-  document.getElementById('formSuccess').style.display='block';
-  setTimeout(()=>window.location.href=`mailto:kontakt@kleivancreative.no?subject=${s}&body=${b}`,900);
+
+  // Set budget value in hidden field before submit
+  const budgetText = display.textContent.replace('estimert','').replace('og over','').trim();
+  document.getElementById('budgetValue').value = budgetText;
+
+  const form = this;
+  const submitBtn = form.querySelector('.form-submit');
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Sender...';
+
+  const formData = new FormData(form);
+
+  try {
+    const response = await fetch('https://formspree.io/f/xreraplk', {
+      method: 'POST',
+      body: formData,
+      headers: { 'Accept': 'application/json' }
+    });
+
+    if (response.ok) {
+      // Success: show success message
+      document.getElementById('formContent').style.display = 'none';
+      document.getElementById('formSuccess').style.display = 'block';
+      form.reset();
+      // Reset budget display
+      updateSlider();
+    } else {
+      // Server error
+      const data = await response.json();
+      const msg = (data.errors && data.errors.map(err => err.message).join(', ')) || 'Noe gikk galt. Prøv igjen.';
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Send forespørsel →';
+      alert('Feil: ' + msg);
+    }
+  } catch (err) {
+    // Network error
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Send forespørsel →';
+    alert('Nettverksfeil. Sjekk internettforbindelsen og prøv igjen.');
+  }
 });
 
 /* ── CURSOR ── */
