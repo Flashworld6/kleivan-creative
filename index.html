@@ -633,7 +633,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:3.5rem 4
   /* Bento */
   .bento{display:flex;flex-direction:column;gap:6px}/* overridden below */
   .bi{min-height:unset!important;border-radius:10px}
-  .bi-1,.bi-2{aspect-ratio:unset!important;min-height:220px!important}
+  /* bi-1,bi-2 min-height overridden by new bento CSS below */
   .bi-ph p,.bi-badge{font-size:.52rem}
 
   /* Poster grid */
@@ -920,6 +920,8 @@ img,video,iframe,svg{max-width:100%}
     min-width: 0 !important;
     border-radius: 10px !important;
     overflow: hidden !important;
+    position: relative !important;
+    display: block !important;
   }
   /* bi-1 SteelSeries: full width, 16:9 — spans both columns */
   .bi-1 {
@@ -927,8 +929,10 @@ img,video,iframe,svg{max-width:100%}
     grid-row: 1 !important;
     aspect-ratio: 16 / 9 !important;
     min-height: 0 !important;
+    height: auto !important;
     width: 100% !important;
     position: relative !important;
+    overflow: hidden !important;
   }
   /* bi-2 Tørst: left column, 9:16 portrait */
   .bi-2 {
@@ -936,8 +940,10 @@ img,video,iframe,svg{max-width:100%}
     grid-row: 2 !important;
     aspect-ratio: 9 / 16 !important;
     min-height: 0 !important;
+    height: auto !important;
     width: 100% !important;
     position: relative !important;
+    overflow: hidden !important;
   }
   /* bi-3 Mystixx: right column, 9:16 portrait — exactly beside bi-2 */
   .bi-3 {
@@ -945,8 +951,10 @@ img,video,iframe,svg{max-width:100%}
     grid-row: 2 !important;
     aspect-ratio: 9 / 16 !important;
     min-height: 0 !important;
+    height: auto !important;
     width: 100% !important;
     position: relative !important;
+    overflow: hidden !important;
   }
   /* Kommer snart: 2x2 grid, square boxes, same width as videos above */
   .bi-4 {
@@ -991,11 +999,18 @@ img,video,iframe,svg{max-width:100%}
   }
 
   /* Bento video fill */
-  /* Video boxes: position:relative so absolute wrap fills correctly */
-  .bi { position: relative !important; }
+  /* Video boxes: robust fill on mobile */
+  .bi-video {
+    position: relative !important;
+    overflow: hidden !important;
+  }
+  .bi { position: relative !important; overflow: hidden !important; }
   .bi-video-wrap {
     position: absolute !important;
-    inset: 0 !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
     width: 100% !important;
     height: 100% !important;
     overflow: hidden !important;
@@ -1006,7 +1021,10 @@ img,video,iframe,svg{max-width:100%}
     left: 0 !important;
     width: 100% !important;
     height: 100% !important;
-    border: none !important;
+    min-width: 100% !important;
+    min-height: 100% !important;
+    border: 0 !important;
+    display: block !important;
   }
 
   /* ── YOUTUBE CHANNELS: 2-column grid ── */
